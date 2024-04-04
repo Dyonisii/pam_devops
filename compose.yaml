@@ -1,0 +1,29 @@
+version: '3'
+services:
+  web:
+    build:
+      context: app
+      target: builder
+    stop_signal: SIGINT
+    ports:
+      - '5000:5000'
+    networks:
+      my_network:
+        ipv4_address: 172.19.0.2
+
+  web2:
+    build:
+      context: app2
+    stop_signal: SIGINT
+    ports:
+      - '2222:22'
+    networks:
+      my_network:
+        ipv4_address: 172.19.0.3
+
+networks:
+  my_network:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.19.0.0/16
