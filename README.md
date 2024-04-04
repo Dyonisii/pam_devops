@@ -72,8 +72,9 @@ root@93ec9d0decbc:/opt/local/logs# grep -o "GetTemporaryAuthenticationTokenReque
 ## Parse data
 4) For request/response with id 149418, show how to get values for obj=, ipAddress=, customData=[KV(5, playerCode= and flow= in one line.
 ```
-root@93ec9d0decbc:/opt/local/logs# echo "PT04LOGIN49756-playtech93004, 10.144.227.18, #webVent, 58619722, 250168855196269516:2" | awk -F ', ' '{print "obj="$1", ipAddress="$2", customData=[KV(5, playerCode="$3", flow="$5}'
-obj=PT04LOGIN49756-playtech93004, ipAddress=10.144.227.18, customData=[KV(5, playerCode=#webVent, flow=250168855196269516:2
+root@93ec9d0decbc:/opt/local/logs# grep "149418" server.log | awk -F '[,=]' '{for(i=1;i<=NF;i++){if($i=="obj"){obj=$(i+1)} if($i=="ipAddress"){ipAddress=$(i+1)} if($i=="5playerCode"){playerCode=$(i+1)} if($i=="flow"){flow=$(i+1)}}}END{print "obj=" obj ", ipAddress=" ipAddress ", customData=[KV(5, playerCode=" playerCode " and flow=" flow "]"}'
+obj=PT04LOGIN49756-playtech93004, ipAddress=10.144.227.18, customData=[KV(5, playerCode= and flow=250168855196269516:2) [exec-thread-3]]
+
 ```
 ## Bonus
 ```
